@@ -58,19 +58,47 @@ int count_words(char *str){
 
 /* Returns a fresly allocated new zero-terminated string 
    containing <len> chars from <inStr> */
-char *copy_str(char *inStr, short len);
+//Copies the string over to a new memory allocation
+char *copy_str(char *inStr, short len){
+  char *str_copy= (char*)malloc(sizeof(char)*len);
+  int i=0;
+  while (i < len){
+    *str_copy = *inStr;
+    str_copy++;
+    inStr++;
+    i++;
+  }
+  str_copy-=len;
+  return str_copy;
+}
 
-/* Returns a freshly allocated zero-terminated vector of freshly allocated 
-   space-separated tokens from zero-terminated str.
-
-   For example, tokenize("hello world string") would result in:
-     tokens[0] = "hello"
-     tokens[1] = "world"
-     tokens[2] = "string" 
-     tokens[3] = 0
-*/
-char **tokenize(char* str);
-
+//TODO incrament tokens
+char **tokenize(char* str){
+  
+  int word_size=0;
+  int i =0;
+  int total_words=count_words(str);
+  
+  char *word_end;
+  char *word_begin;
+  
+  char **tokens = (char**)malloc(sizeof(char*)*total_words); // Where the tokens are stored
+  char *pointer = word_start(str); // temp pointer for incramenting
+  char **startAddress = tokens;
+  while(i < total_words){
+    
+    word_begin = pointer;
+    word_end = word_terminator(word_begin);    // Finds the end of the word
+    pointer = word_end;                        // Preparing pointer for next iteration
+    word_size = word_end - word_begin;         // Finding the exact size to copy over for the word
+    *tokens = copy_str(word_begin, word_size); // Coping over word to *tokens
+    tokens++;
+    pointer = word_start(word_end);            // Itterators for next word
+    i++
+     } 
+   return startAddress;
+}
+  
 /* Prints all tokens. */
 void print_tokens(char **tokens);
 
@@ -78,3 +106,5 @@ void print_tokens(char **tokens);
 void free_tokens(char **tokens);
 
 #endif
+        
+          
