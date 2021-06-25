@@ -72,7 +72,7 @@ char *copy_str(char *inStr, short len){
   return str_copy;
 }
 
-//TODO incrament tokens
+
 char **tokenize(char* str){
   
   int word_size=0;
